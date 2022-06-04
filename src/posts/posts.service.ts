@@ -1,17 +1,24 @@
+import { Request, Response } from 'express';
 import axios from 'axios';
+import { nanoid } from 'nanoid';
 import * as cheerio from 'cheerio';
-import express from 'express';
+import { PostsType } from './posts.model';
 
-const app = express();
-const port = 3000;
-
-app.get('/', async (req, res) => {
+const _axios = async ({ url }: { url: string }) => {
   try {
-    const response = await axios.get('https://velog.io');
-    const $ = cheerio.load(response.data);
-    const $posts = $('.sc-jgrJph');
+    const response = await axios.get(url);
+    return cheerio.load(response.data);
+  } catch (e) {
+    console.error(e);
+  }
+};
 
-    const posts = [];
+export const getVelogPosts = async (req: Request, res: Response) => {
+  try {
+    const $ = (await _axios({ url: 'https://velog.io' })) as cheerio.CheerioAPI;
+    const $posts = $('.sc-jgrJph');
+    const posts: Array<PostsType> = [];
+
     $posts.each((_, el) => {
       const $el = $(el);
       const $title = $el.find('.sc-hUpaCq h4');
@@ -20,10 +27,11 @@ app.get('/', async (req, res) => {
       const $image = $el.find('.sc-hUpaCq img');
 
       posts.push({
+        id: nanoid(),
         title: $title.text(),
         description: $description.text(),
         link: `https://velog.io${$link.attr('href')}`,
-        image: $image.attr('src'),
+        image: $image.attr('src') as string,
       });
     });
 
@@ -31,8 +39,4 @@ app.get('/', async (req, res) => {
   } catch (e) {
     console.log(e);
   }
-});
-
-app.listen(port, () => {
-  console.log(`Server is running on port ${port}`);
-});
+};
