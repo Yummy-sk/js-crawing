@@ -7,15 +7,27 @@
 
 <br/>
 
+### Install
+
+<br/>
+
+```
+npm install or yarn install
+
+npm run start:dev or yarn start:dev
+
+```
+
+<br/>
+
 ### Crawing Target
 
 <br/>
 
 - velog
-- haker news
+- spiceworks
 - 요즘 it
-
-... 추가 예정
+- 커리어리
 
 <br/>
 
@@ -26,5 +38,5 @@
 - [x] 크롤링
 - [ ] 여러 소스들 Combine
 - [ ] 포스트간 정렬 처리
-- [ ] Batch 스케줄링
+- [ ] ~Batch 스케줄링~
 - [ ] 서버 배포
