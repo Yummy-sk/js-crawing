@@ -40,3 +40,30 @@ export const getVelogPosts = async (req: Request, res: Response) => {
     console.log(e);
   }
 };
+
+export const getYozmPosts = async (req: Request, res: Response) => {
+  try {
+    const $ = (await _axios({ url: 'https://yozm.wishket.com/magazine' })) as cheerio.CheerioAPI;
+    const $posts = $('.list-item');
+    const posts: Array<PostsType> = [];
+
+    $posts.each((_, el) => {
+      const $el = $(el);
+      const $title = $el.find('.item-title');
+      const $description = $el.find('.item-main p');
+      const $link = $el.find('.list-item-thumbnail a');
+      const $image = $el.find('.thumbnail-image');
+
+      posts.push({
+        id: nanoid(),
+        title: $title.text(),
+        description: $description.text(),
+        link: `https://yozm.wishket.com${$link.attr('href')}`,
+        image: `https://yozm.wishket.com${$image.attr('src')}` as string,
+      });
+    });
+    res.send(posts);
+  } catch (e) {
+    console.log(e);
+  }
+};

@@ -1,7 +1,7 @@
 {
   "scripts": {
     "build": "tsc",
-    "start:dev": "tsc-watch --onSuccess \"node dist/app.js\"",
+    "start:dev": "nodemon tsc-watch --onSuccess \"node dist/app.js\"",
     "prestart": "npm run build",
     "start": "node dist/app.js"
   },
@@ -17,6 +17,7 @@
     "axios": "^0.27.2",
     "cheerio": "^1.0.0-rc.11",
     "express": "^4.18.1",
-    "nanoid": "^3.3.4"
+    "nanoid": "^3.3.4",
+    "nodemon": "^2.0.16"
   }
 }

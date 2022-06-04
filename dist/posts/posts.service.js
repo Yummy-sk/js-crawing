@@ -36,7 +36,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getVelogPosts = void 0;
+exports.getYozmPosts = exports.getVelogPosts = void 0;
 var axios_1 = require("axios");
 var nanoid_1 = require("nanoid");
 var cheerio = require("cheerio");
@@ -97,4 +97,40 @@ var getVelogPosts = function (req, res) { return __awaiter(void 0, void 0, void 
     });
 }); };
 exports.getVelogPosts = getVelogPosts;
+var getYozmPosts = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var $_2, $posts, posts_2, e_3;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                _a.trys.push([0, 2, , 3]);
+                return [4, _axios({ url: 'https://yozm.wishket.com/magazine' })];
+            case 1:
+                $_2 = (_a.sent());
+                $posts = $_2('.list-item');
+                posts_2 = [];
+                $posts.each(function (_, el) {
+                    var $el = $_2(el);
+                    var $title = $el.find('.item-title');
+                    var $description = $el.find('.item-main p');
+                    var $link = $el.find('.list-item-thumbnail a');
+                    var $image = $el.find('.thumbnail-image');
+                    posts_2.push({
+                        id: (0, nanoid_1.nanoid)(),
+                        title: $title.text(),
+                        description: $description.text(),
+                        link: "https://yozm.wishket.com".concat($link.attr('href')),
+                        image: "https://yozm.wishket.com".concat($image.attr('src')),
+                    });
+                });
+                res.send(posts_2);
+                return [3, 3];
+            case 2:
+                e_3 = _a.sent();
+                console.log(e_3);
+                return [3, 3];
+            case 3: return [2];
+        }
+    });
+}); };
+exports.getYozmPosts = getYozmPosts;
 //# sourceMappingURL=posts.service.js.map
