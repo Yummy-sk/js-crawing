@@ -67,3 +67,33 @@ export const getYozmPosts = async (req: Request, res: Response) => {
     console.log(e);
   }
 };
+
+export const getSpiceWorksPosts = async (req: Request, res: Response) => {
+  try {
+    const $ = (await _axios({ url: 'https://community.spiceworks.com' })) as cheerio.CheerioAPI;
+    const $posts = $('.topic-card');
+    const posts: Array<PostsType> = [];
+
+    $posts.each((_, el) => {
+      const $el = $(el);
+      const $title = $el.find('.generic-card__header a');
+      const $link = $el.find('.generic-card__thumbnail a').attr('href');
+      const $image = $el.find('.generic-card__thumbnail a').attr('style') as string;
+      const formatedImage: RegExpMatchArray = $image.match(
+        /(http(s?):)([/|.|\w|\s|-])*\.(?:jpg|gif|png)/gi
+      ) as RegExpMatchArray;
+
+      posts.push({
+        id: nanoid(),
+        title: $title.text(),
+        description: null,
+        link: `https://community.spiceworks.com${$link}`,
+        image: formatedImage[0],
+      });
+    });
+
+    res.send(posts);
+  } catch (e) {
+    console.error(e);
+  }
+};

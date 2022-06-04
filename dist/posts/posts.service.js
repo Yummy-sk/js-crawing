@@ -36,7 +36,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getYozmPosts = exports.getVelogPosts = void 0;
+exports.getSpiceWorksPosts = exports.getYozmPosts = exports.getVelogPosts = void 0;
 var axios_1 = require("axios");
 var nanoid_1 = require("nanoid");
 var cheerio = require("cheerio");
@@ -133,4 +133,40 @@ var getYozmPosts = function (req, res) { return __awaiter(void 0, void 0, void 0
     });
 }); };
 exports.getYozmPosts = getYozmPosts;
+var getSpiceWorksPosts = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var $_3, $posts, posts_3, e_4;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                _a.trys.push([0, 2, , 3]);
+                return [4, _axios({ url: 'https://community.spiceworks.com' })];
+            case 1:
+                $_3 = (_a.sent());
+                $posts = $_3('.topic-card');
+                posts_3 = [];
+                $posts.each(function (_, el) {
+                    var $el = $_3(el);
+                    var $title = $el.find('.generic-card__header a');
+                    var $link = $el.find('.generic-card__thumbnail a').attr('href');
+                    var $image = $el.find('.generic-card__thumbnail a').attr('style');
+                    var formatedImage = $image.match(/(http(s?):)([/|.|\w|\s|-])*\.(?:jpg|gif|png)/gi);
+                    posts_3.push({
+                        id: (0, nanoid_1.nanoid)(),
+                        title: $title.text(),
+                        description: null,
+                        link: "https://community.spiceworks.com".concat($link),
+                        image: formatedImage[0],
+                    });
+                });
+                res.send(posts_3);
+                return [3, 3];
+            case 2:
+                e_4 = _a.sent();
+                console.error(e_4);
+                return [3, 3];
+            case 3: return [2];
+        }
+    });
+}); };
+exports.getSpiceWorksPosts = getSpiceWorksPosts;
 //# sourceMappingURL=posts.service.js.map
