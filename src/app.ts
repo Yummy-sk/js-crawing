@@ -16,6 +16,8 @@ class Server {
   }
 
   private setMiddleware() {
+    this.app.use(express.static('build'));
+
     this.app.use((req, res, next) => {
       console.log(req.rawHeaders[1]);
       console.log('this is logging middleware');
@@ -33,6 +35,7 @@ class Server {
 
   public listen() {
     this.setMiddleware();
+
     this.app.listen(this.port, () => {
       console.log('server is on...');
     });

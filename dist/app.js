@@ -12,6 +12,7 @@ var Server = (function () {
         this.app.use(posts_route_1.default);
     };
     Server.prototype.setMiddleware = function () {
+        this.app.use(express.static('build'));
         this.app.use(function (req, res, next) {
             console.log(req.rawHeaders[1]);
             console.log('this is logging middleware');
