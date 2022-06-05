@@ -3,10 +3,12 @@ import postsRouter from './posts/posts.route';
 
 class Server {
   public app: express.Application;
+  public port: number | string;
 
   constructor() {
     const app = express();
     this.app = app;
+    this.port = process.env.PORT || 3000;
   }
 
   private setRoute() {
@@ -31,7 +33,7 @@ class Server {
 
   public listen() {
     this.setMiddleware();
-    this.app.listen(3000, () => {
+    this.app.listen(this.port, () => {
       console.log('server is on...');
     });
   }

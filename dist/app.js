@@ -6,6 +6,7 @@ var Server = (function () {
     function Server() {
         var app = express();
         this.app = app;
+        this.port = process.env.PORT || 3000;
     }
     Server.prototype.setRoute = function () {
         this.app.use(posts_route_1.default);
@@ -24,7 +25,7 @@ var Server = (function () {
     };
     Server.prototype.listen = function () {
         this.setMiddleware();
-        this.app.listen(8000, function () {
+        this.app.listen(this.port, function () {
             console.log('server is on...');
         });
     };
