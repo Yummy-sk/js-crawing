@@ -31,7 +31,7 @@ class Server {
 
   public listen() {
     this.setMiddleware();
-    this.app.listen(8000, () => {
+    this.app.listen(3000, () => {
       console.log('server is on...');
     });
   }
