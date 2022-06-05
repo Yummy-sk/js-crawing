@@ -1,8 +1,8 @@
 {
   "scripts": {
-    "tsc": "./node_modules/typescript/bin/tsc",
+    "tsc": "tsc",
     "build": "tsc",
-    "postinstall": "npm run build",
+    "postinstall": "npm run tsc",
     "prestart": "npm run build",
     "start:dev": "nodemon tsc-watch --onSuccess \"node dist/app.js\"",
     "start": "node dist/app.js"
